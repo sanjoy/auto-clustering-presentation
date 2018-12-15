@@ -1,0 +1,10 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  "XLA Cluster"[fillcolor=coral]
+  StackPop[label="StackPop\n\n[DEADLOCKS]"]
+
+  StackPop -> "XLA Cluster"
+  "XLA Cluster" -> StackPush
+}

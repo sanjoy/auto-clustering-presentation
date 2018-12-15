@@ -1,0 +1,18 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  subgraph cluster_0 {
+    label="XLA Cluster";labelloc="b"
+    style=filled
+    fillcolor=darkolivegreen1
+    node[fillcolor=coral]
+    SizeFunction
+    DynamicSlice
+  }
+
+  Input -> DynamicSlice
+  Begin -> SizeFunction
+  Size -> SizeFunction
+  SizeFunction -> DynamicSlice
+}

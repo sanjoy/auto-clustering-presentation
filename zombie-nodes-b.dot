@@ -1,0 +1,22 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  False -> Switch0
+  True -> Switch1
+  True -> Switch2
+  
+  Switch0[fillcolor=aquamarine,label="Switch"]
+  Switch1[fillcolor=aquamarine,label="Switch"]
+  Switch2[fillcolor=aquamarine,label="Switch"]
+
+  XLA[label="XLA Cluster\n⊥"]
+  X[label="X\n⊥"]
+  Y[label="Y\n⊥"]
+
+  Switch0 -> XLA[label="T",style=dashed]
+  Switch1 -> XLA[label="T",style=dashed]
+  Switch2 -> XLA[label="T",style=dashed]
+  XLA -> X
+  XLA -> Y
+}

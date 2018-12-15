@@ -1,0 +1,27 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  subgraph cluster_1 {
+    Prologue[label="rY = *Y"]
+    Epilogue[label="*X = rX"]
+    subgraph cluster_0 {
+      node[fillcolor=coral]
+      StoreX1[label="rX = 1"]
+      LoadY[label="r0 = rY"]
+    }
+  }
+
+  StoreX7[label="*X = 7"]
+  StoreY[label="*Y = 2"]
+
+  SOURCE -> Prologue[style=dashed]
+  Prologue -> StoreX1[style=dashed]
+  StoreX1 -> LoadY[style=dashed]
+  LoadY -> Epilogue[style=dashed]
+  Epilogue -> SINK[style=dashed]
+
+  SOURCE -> StoreY[style=dashed]
+  StoreY -> StoreX7[style=dashed]
+  StoreX7 -> SINK[style=dashed]
+}

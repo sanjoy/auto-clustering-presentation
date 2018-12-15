@@ -1,0 +1,40 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  XlaCompile0[label=XlaCompile,fontsize=20]
+  XlaRun0[label=XlaRun,fontsize=20]
+
+  XlaCompile1[label=XlaCompile,fontsize=20]
+  XlaRun1[label=XlaRun,fontsize=20]
+
+  A -> XlaCompile0
+  XlaCompile0 -> XlaRun0
+  XlaRun0 -> C
+  XlaRun0 -> C
+
+  A -> B
+  B -> XlaCompile1
+  XlaCompile1 -> XlaRun1
+  XlaRun1 -> C
+
+  subgraph cluster0 {
+    X[fillcolor=coral]
+    Y[fillcolor=coral]
+    Z[fillcolor=coral]
+
+    X -> Y
+    X -> Z
+    Y -> Z
+  }
+
+  subgraph cluster1 {
+    P[fillcolor=coral]
+    Q[fillcolor=coral]
+
+    P -> Q
+  }
+
+  XlaCompile0 -> X[lhead=cluster0,style="dashed,bold",dir=none]
+  XlaCompile1 -> P[lhead=cluster1,style="dashed,bold",dir=none]
+}

@@ -1,0 +1,18 @@
+digraph {
+  graph[bgcolor=gray98]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  SOURCE -> "Const(2.0)"[style=dashed]
+  SOURCE -> "Const(3)"[style=dashed]
+  SOURCE -> "Const(4)"[style=dashed]
+
+  "Const(2.0)" -> tanh
+  tanh -> square
+  tanh -> print[style=dashed]
+  square -> SINK[style=dashed]
+  print -> SINK[style=dashed]
+  add -> SINK[style=dashed]
+  add -> print
+  "Const(3)" -> add
+  "Const(4)" -> add
+}

@@ -1,0 +1,18 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  StoreX[label="*X = 1"]
+  StoreY[label="*Y = 2"]
+
+  LoadY[label="r0 = *Y"]
+  LoadX[label="r1 = *X"]
+
+  SOURCE -> StoreX[style=dashed]
+  StoreX -> StoreY[style=dashed]
+  StoreY -> SINK[style=dashed]
+
+  SOURCE -> LoadY[style=dashed]
+  LoadY -> LoadX[style=dashed]
+  LoadX -> SINK[style=dashed]
+}

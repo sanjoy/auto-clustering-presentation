@@ -1,0 +1,22 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  subgraph cluster_0 {
+    label="XLA Cluster"
+    labelloc="b"
+    style=filled
+    fillcolor=darkolivegreen1
+    node[fillcolor=coral]
+    Concat
+    Reshape[label="Reshape\n\nf32[60,10]"]
+  }
+
+  A[label="s32[1] {60}"]
+  B[label="s32[1] {10}"]
+  Input[label="f32[600] ..."]
+  A -> Concat
+  B -> Concat
+  Concat -> Reshape[label="shape"]
+  Input -> Reshape[label="input"]
+}

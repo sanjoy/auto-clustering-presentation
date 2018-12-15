@@ -1,0 +1,12 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  X -> Sub
+  X -> ReduceMax
+  ReduceMax -> Sub
+  Sub -> ReduceAdd
+  ReduceAdd -> Exp
+  Exp -> Div
+  ReduceAdd -> Div
+}

@@ -1,0 +1,23 @@
+digraph {
+  graph[bgcolor=gray98]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  X[fillcolor=coral]
+  Y[fillcolor=coral]
+  Z[fillcolor=coral]
+
+  P[fillcolor=coral]
+  Q[fillcolor=coral]
+
+  A -> X
+  X -> Y
+  X -> Z
+  Y -> Z
+  Z -> C
+  Y -> C
+
+  A -> B
+  B -> P
+  P -> Q
+  Q -> C
+}

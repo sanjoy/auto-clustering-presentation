@@ -1,0 +1,14 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  1[label="Const(1)\n\nCond ? ⊥ : 1"]
+  2[label="Const(2)\n\nCond ? 2 : ⊥"]
+  Switch[fillcolor=aquamarine]
+  Merge[fillcolor=aquamarine,label="Merge\n\nCond ? 2 : 1"]
+  Cond -> Switch
+  Switch -> 1[style=dashed,label=F]
+  Switch -> 2[style=dashed,label=T]
+  1 -> Merge
+  2 -> Merge
+}

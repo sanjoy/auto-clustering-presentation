@@ -1,0 +1,29 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  subgraph cluster_0 {
+    label="XLA Cluster";labelloc="b"
+    style=filled
+    fillcolor=darkolivegreen1
+    Add[label="Add",fillcolor="coral"]
+    Mul[label="Mul",fillcolor="coral"]
+    Other[label="...",fillcolor="coral"]
+  }
+
+  A[label="..."]
+  B[label="..."]
+  C[label="..."]
+  D[label="input"]
+  E[label="size"]
+
+  A -> Add
+  B -> Add
+  Add -> Mul
+  Add -> Other
+  C -> Mul
+
+  Mul -> "tf.Slice"[label="begin"]
+  D -> "tf.Slice"
+  E -> "tf.Slice"
+}

@@ -1,0 +1,417 @@
+\documentclass{beamer}
+
+% ===============================================================
+% BEGIN SETUP
+% ===============================================================
+
+\usetheme{metropolis}
+\usefonttheme{serif}
+\usepackage[skip=0pt]{caption}
+
+\captionsetup{labelformat=empty,labelsep=none}
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.8\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+      \insertframenumber{} \hspace*{1ex}
+    \end{beamercolorbox}
+  }%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+
+\setlength{\fboxsep}{0pt}
+\setlength{\fboxrule}{1pt}
+
+\newcommand{\image}[1]{\begin{figure}\fbox{\includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{./images/#1.pdf}}\end{figure}}
+
+\newcommand{\htimage}[2]{\fbox{\includegraphics[width=\linewidth,height=#2,keepaspectratio]{./images/#1.pdf}}}
+
+\newcommand{\capimage}[2]{\begin{figure}\caption{#2}\fbox{\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{./images/#1.pdf}}\end{figure}}
+
+% ===============================================================
+% END SETUP
+% ===============================================================
+
+\begin{document}
+\title{Auto Clustering TensorFlow Graphs}   
+\author{Sanjoy Das}
+\institute{Google}
+\date{December 17, 2018}
+
+\frame{\titlepage} 
+
+
+\begin{frame}[fragile]
+\frametitle{Quick TensorFlow Primer} 
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}
+      \item Dataflow graph executor
+      \item Concurrent by ``default''
+      \item Supports an open set of operations
+      \item Operations can have side effects
+      \item Can represent loops and conditionals
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{tensorflow-primer}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{The TensorFlow/XLA Bridge In Action}
+  \begin{columns}
+    \begin{column}{0.23\textwidth}
+      \image{tf-xla-bridge-in-action-a}
+    \end{column}
+    \begin{column}{0.23\textwidth}
+      \image{tf-xla-bridge-in-action-b}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \image{tf-xla-bridge-in-action-c}
+    \end{column}
+  \end{columns}
+  \begin{columns}
+    \begin{column}{0.15\textwidth}
+    \end{column}
+    \begin{column}{0.23\textwidth}
+      \small{Mark For Compilation}
+    \end{column}
+    \begin{column}{0.60\textwidth}
+      \small{Encapsulate Subgraphs \& Build XLA Ops}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{The TensorFlow/XLA Bridge}
+  \begin{itemize}
+  \item Decides which parts should be compiled by XLA (Clustering)
+  \item Converts TensorFlow nodes into XLA subgraphs (Translator)
+  \item Compiles and executes a TensorFlow subgraph using XLA (JIT)
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{The TensorFlow/XLA Bridge: Translator}
+  \begin{itemize}
+  \item Maps one TensorFlow node into one or more XLA nodes
+  \item Not all TensorFlow ops are supported
+  \item Interesting area for IR design
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{The TensorFlow/XLA Bridge: Translator}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      For example \texttt{Y = tf.SoftMax(X)} node is lowered into (roughly) the XLA graph shown on the right:
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{softmax-lowering}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{The TensorFlow/XLA Bridge: JIT}
+  \begin{itemize}
+  \item TensorFlow invokes XLA as a ``Just In Time'' Compiler
+  \item Key functionality in the \texttt{\_XlaCompile} and \texttt{\_XlaRun} op kernels
+  \item Does some runtime specialization because XLA needs compile-time constant shapes
+  \item Implements ``lazy compilation''.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The TensorFlow/XLA Bridge: Auto Clustering}
+  \begin{itemize}
+  \item Automatically discover clusters that should be compiled by XLA
+  \item Should always preserve graph semantics
+  \item Performance compared to TensorFlow should be never be worse and often be better
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{The TensorFlow/XLA Bridge: Auto Clustering}
+  \large{\textbf{Auto-clustering is surprisingly difficult!}}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering: Cycle Detection}
+  \begin{columns}
+    \begin{column}{0.31\textwidth}
+      \image{cycle-detection-a}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \image{cycle-detection-b}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \image{cycle-detection-c}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering: Cycle Detection}
+  \begin{itemize}
+  \item Online cycle detection algorithm
+  \item Run as we make decisions about which nodes to put in which cluster
+  \item Uses a worklist because the technique is visit order dependent
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Conditionals in TensorFlow}
+
+  \image{control-flow-in-tf-a}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Conditionals in TensorFlow}
+
+  \image{control-flow-in-tf-b}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering \& Deadness}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \image{zombie-nodes-a}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{zombie-nodes-b}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering \& Deadness}
+  \begin{itemize}
+  \item Map each node to a symbolic predicate that is true iff the node is execute
+  \item All nodes in the same cluster are constrained to have the same ``is live'' predicate
+  \item Conservatively correct because we check syntactic equivalence
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Serializing Blocking Operations [Work In Progress]}
+  \begin{columns}
+    \begin{column}{0.32\textwidth}
+      \image{serialize-blocking-operations-a}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \image{serialize-blocking-operations-b}
+    \end{column}
+    \begin{column}{0.22\textwidth}
+      \image{serialize-blocking-operations-c}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering: Device To Host Copies}
+
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}
+      \item XLA only produces device memory buffers
+      \item May introduce bottlenecks by not letting the CPU run ahead of the GPU
+      \item We ``decluster'' nodes to avoid this problem
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{device-to-host-copies}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% \begin{frame}[fragile]
+%%   \frametitle{Runtime Specialization of Shapes}
+%%   \begin{itemize}
+%%   \item XLA only supports static shapes today.
+%%   \item The XLA executable must be versioned on the input shapes.
+%%   \item In some cases we also need to version on input \textit{values}.
+%%   \end{itemize}
+%% \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Runtime Specialization of Shapes}
+
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \image{shape-specialization-b}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{shape-specialization-c}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Runtime Specialization of Shapes}
+  Output shape for \texttt{tf.slice(input, begin, size)}:
+\begin{verbatim}
+  output_size[i] =
+    (size[i] == -1) ? (input.shape()[i] - begin[i]) :
+                      size[i];
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[c]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-symbolic-slice}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-a}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-e}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-f}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-symbolic-slice-fixed}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Resource Variable Operations in TensorFlow}
+  \begin{columns}
+    \begin{column}{0.58\textwidth}
+      \begin{itemize}
+      \item Resource variables are mutable ``cells'' that point to immutable tensors
+      \item Resource variables reads and writes are atomic
+      \item Semantically, reads and writes execute in a total order consistent with the partial order of the graph
+      \item Given the graph on the right we can assert ``\texttt{r0 == 2} implies \texttt{r1 == 1}''
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \image{resource-var-a}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Resource Variable Operations in XLA}
+
+  \begin{itemize}
+  \item Clustering resource variable operations can be important in some cases.
+
+  \item However, XLA would prefer not to represent resource variable operations directly in its IR.
+
+  \item Solution:
+    \begin{itemize}
+    \item Split the computation into ``pure'' and ``impure'' (side effecting) parts
+    \item Have XLA handle the ``pure'' bits, and the TF/XLA bridge handle the ``impure'' bits
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Resource Variable Operations in XLA}
+  \begin{columns}
+    \begin{column}{0.28\textwidth}
+\begin{verbatim}
+r0 = Read(X)
+r1 = Read(Y)
+Write(42, Z)
+r2 = Read(Z)
+r3 = r0 + r1 + r2
+Write(Z, r3)
+\end{verbatim}
+    \end{column}
+    \vrule{}
+    \begin{column}{0.70\textwidth}
+      \begin{enumerate}
+        \item
+\begin{verbatim}
+// The TF/XLA Bridge
+rX = Read(X); rY = Read(Y)
+\end{verbatim}
+        \item
+\begin{verbatim}
+// The XLA Computation
+r0 = rX  // Read(X)
+r1 = rY  // Read(Y)
+rZ = 42  // Write(42, Z)
+r2 = rZ  // Read(Z)
+r3 = r0 + r1 + r2
+rZ = r3  // Write(Z, r3)
+\end{verbatim}
+        \item
+\begin{verbatim}
+// The TF/XLA Bridge
+Write(Z, rZ)
+\end{verbatim}
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Resource Variable Operations in XLA}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \image{resource-var-b}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{resource-var-c}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Resource Variable Operations in XLA}
+  \begin{itemize}
+  \item Solution: Static Analysis!
+  \item Analyze the TensorFlow graph to figure out which pairs of resource operations cannot be put into the same cluster
+  \item Make auto-clustering respect these constraints
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering: Current Status}
+  \begin{itemize}
+  \item We've made significant progress towards auto-clustering for XLA GPU, but we're not production ready yet
+  \item We'd love for you to try it out!
+    \begin{itemize}
+    \item Change the \texttt{TF\_XLA\_FLAGS} environment variable to include \texttt{--tf\_xla\_auto\_jit=2} to enable for all graphs
+    \item You may have to change your model to use resource variables for best results
+    \end{itemize}
+  \item There are no immediate plans for auto-clustering for XLA CPU
+  \end{itemize}
+\end{frame}
+
+\end{document}

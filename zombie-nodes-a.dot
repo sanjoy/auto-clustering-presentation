@@ -1,0 +1,30 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  False -> Switch0
+  True -> Switch1
+  True -> Switch2
+  
+  Switch0[fillcolor=aquamarine,label="Switch"]
+  Switch1[fillcolor=aquamarine,label="Switch"]
+  Switch2[fillcolor=aquamarine,label="Switch"]
+
+  P[fillcolor=coral,label="P\n⊥"]
+  Q[fillcolor=coral]
+  R[fillcolor=coral]
+  S[fillcolor=coral,label="S\n⊥"]
+  T[fillcolor=coral]
+
+  X[label="X\n⊥"]
+
+  Switch0 -> P[label="T",style=dashed]
+  Switch1 -> Q[label="T",style=dashed]
+  Switch2 -> R[label="T",style=dashed]
+  P -> S
+  Q -> S
+  Q -> T
+  R -> T
+  S -> X
+  T -> Y
+}

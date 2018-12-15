@@ -1,0 +1,19 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+
+  subgraph cluster_0 {
+    label="XLA Cluster";labelloc="b"
+    style=filled
+    fillcolor=darkolivegreen1
+    node[fillcolor=coral]
+    Slice[label="Slice\n\nf32[80,30]"]
+  }
+
+  Input[label="Input\n\nf32[100,100] ..."]
+  Begin[label="Begin\n\ns32[2] {20,30}"]
+  Size[label="Size\n\ns32[2] {-1,30}"]
+  Input -> Slice
+  Begin -> Slice
+  Size -> Slice
+}
