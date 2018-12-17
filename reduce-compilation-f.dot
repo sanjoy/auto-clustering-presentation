@@ -1,5 +1,6 @@
 digraph {
-  graph[bgcolor=gray98,compound=true]
+  graph[bgcolor=gray98,compound=true,fontsize=20]
+  edge[fontsize=20]
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
   subgraph cluster_0 {
