@@ -53,7 +53,7 @@
     \begin{column}{0.48\textwidth}
       \begin{itemize}
       \item Dataflow graph executor
-      \item Concurrent by ``default''
+      \item Explicit control (dashed) and data (solid) edges
       \item Supports an open set of operations
       \item Operations can have side effects
       \item Can represent loops and conditionals
@@ -77,16 +77,6 @@
     \end{column}
     \begin{column}{0.45\textwidth}
       \image{tf-xla-bridge-in-action-c}
-    \end{column}
-  \end{columns}
-  \begin{columns}
-    \begin{column}{0.15\textwidth}
-    \end{column}
-    \begin{column}{0.23\textwidth}
-      \small{Mark For Compilation}
-    \end{column}
-    \begin{column}{0.60\textwidth}
-      \small{Encapsulate Subgraphs \& Build XLA Ops}
     \end{column}
   \end{columns}
 \end{frame}
