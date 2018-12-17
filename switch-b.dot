@@ -1,0 +1,17 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+  edge[fontsize=20]
+
+  Switch[fillcolor=aquamarine]
+
+  V[label="          V          "]
+  False[label="          False          "]
+  V -> Switch[label="data"]
+  False -> Switch[label="pred"]
+  Switch -> TrueOut[label="true"]
+  Switch -> FalseOut[label="false"]
+
+  TrueOut[label="          ⊥          "]
+  FalseOut[label="          V          "]
+}

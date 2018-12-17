@@ -1,0 +1,19 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
+  edge[fontsize=20]
+
+  Merge[fillcolor=aquamarine]
+
+  In0[label="⊥"]
+  In1[label="⊥"]
+  In2[label="V"]
+  In3[label="⊥"]
+
+  In0 -> Merge
+  In1 -> Merge
+  In2 -> Merge
+  In3 -> Merge
+
+  Merge[label="Merge\n\nV"]
+}
