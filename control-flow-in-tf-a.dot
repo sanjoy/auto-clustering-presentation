@@ -2,13 +2,19 @@ digraph {
   graph[bgcolor=gray98,compound=true]
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
-  1[label="Const(1)\n\nCond ? ⊥ : 1"]
-  2[label="Const(2)\n\nCond ? 2 : ⊥"]
-  Switch[fillcolor=aquamarine]
-  Merge[fillcolor=aquamarine,label="Merge\n\nCond ? 2 : 1"]
-  Cond -> Switch
-  Switch -> 1[style=dashed,label=F]
-  Switch -> 2[style=dashed,label=T]
-  1 -> Merge
-  2 -> Merge
+  10[label="Const(10)"]
+  20[label="Const(20)"]
+  Switch10[fillcolor=aquamarine,label="Switch"]
+  Switch20[fillcolor=aquamarine,label="Switch"]
+
+  C -> Switch10[label=pred]
+  C -> Switch20[label=pred]
+
+  10 -> Switch10
+  20 -> Switch20
+
+  Merge[fillcolor=aquamarine,label="Merge\n\nC ? 20 : 10"]
+
+  Switch10 -> Merge[label="false"]
+  Switch20 -> Merge[label="true"]
 }

@@ -2,28 +2,15 @@ digraph {
   graph[bgcolor=gray98,compound=true]
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
+  X -> Switch0
+  Y -> Switch1
   Switch0[fillcolor=aquamarine,label="Switch"]
   Switch1[fillcolor=aquamarine,label="Switch"]
-  Merge0[fillcolor=aquamarine,label="Merge"]
-  Merge1[fillcolor=aquamarine,label="Merge\n\n(C0 && C1) ? (X+Y) : 0"]
+
   Add[label="Add\n\n(C0 && C1) ? (X+Y) : ⊥"]
-  X[label="X\n\nC0 ? X : ⊥"]
-  Y[label="Y\n\nC1 ? Y : ⊥"]
+  Switch0 -> Add[label=true]
+  Switch1 -> Add[label=true]
 
-  Cond0 -> Switch0
-  Cond1 -> Switch1
-
-  Switch0 -> X[style=dashed,label=T]
-  Switch1 -> Y[style=dashed,label=T]
-
-  X -> Add
-  Y -> Add
-
-  0[label="Const(0)\n\n(C0 && C1) ? ⊥ : 0"]
-
-  Switch0 -> Merge0[style=dashed,label=F]
-  Switch1 -> Merge0[style=dashed,label=F]
-  Merge0 -> 0[style=dashed]
-  0 -> Merge1
-  Add -> Merge1
+  C0 -> Switch0[label=pred]
+  C1 -> Switch1[label=pred]
 }

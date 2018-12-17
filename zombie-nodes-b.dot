@@ -14,9 +14,13 @@ digraph {
   X[label="X\n⊥"]
   Y[label="Y\n⊥"]
 
-  Switch0 -> XLA[label="T",style=dashed]
-  Switch1 -> XLA[label="T",style=dashed]
-  Switch2 -> XLA[label="T",style=dashed]
+  V -> Switch0
+  V -> Switch1
+  V -> Switch2
+
+  Switch0 -> XLA[label="true"]
+  Switch1 -> XLA[label="true"]
+  Switch2 -> XLA[label="true"]
   XLA -> X
   XLA -> Y
 }

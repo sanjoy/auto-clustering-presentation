@@ -1,0 +1,8 @@
+digraph {
+  graph[bgcolor=gray98,compound=true]
+  node[fontsize=20,shape=box,fillcolor=coral, style="filled,rounded"]
+
+  X -> Y
+  X -> Z
+  Y -> Z
+}

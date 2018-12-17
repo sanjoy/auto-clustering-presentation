@@ -18,9 +18,13 @@ digraph {
 
   X[label="X\n⊥"]
 
-  Switch0 -> P[label="T",style=dashed]
-  Switch1 -> Q[label="T",style=dashed]
-  Switch2 -> R[label="T",style=dashed]
+  V -> Switch0
+  V -> Switch1
+  V -> Switch2
+
+  Switch0 -> P[label="true"]
+  Switch1 -> Q[label="true"]
+  Switch2 -> R[label="true"]
   P -> S
   Q -> S
   Q -> T

@@ -3,21 +3,21 @@ digraph {
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
   subgraph cluster_1 {
-    Prologue[label="rY = *Y"]
-    Epilogue[label="*X = rX"]
+    Prologue[label="rY = *Y .. (0)"]
+    Epilogue[label="*X = rX .. (3)"]
     subgraph cluster_0 {
       node[fillcolor=coral]
-      StoreX1[label="rX = 1"]
+      StoreX6[label="rX = 6"]
       LoadY[label="r0 = rY"]
     }
   }
 
-  StoreX7[label="*X = 7"]
-  StoreY[label="*Y = 2"]
+  StoreY[label="*Y = 7 .. (1)"]
+  StoreX7[label="*X = 8 .. (2)"]
 
   SOURCE -> Prologue[style=dashed]
-  Prologue -> StoreX1[style=dashed]
-  StoreX1 -> LoadY[style=dashed]
+  Prologue -> StoreX6[style=dashed]
+  StoreX6 -> LoadY[style=dashed]
   LoadY -> Epilogue[style=dashed]
   Epilogue -> SINK[style=dashed]
 

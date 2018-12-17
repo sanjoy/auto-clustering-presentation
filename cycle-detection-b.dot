@@ -8,12 +8,12 @@ digraph {
     fillcolor=darkolivegreen1
     color=black
     X[fillcolor=coral]
-    Z[fillcolor=coral]
+    Y[fillcolor=coral]
   }
 
   A -> X
+  X -> B
+  B -> Y
   X -> Y
-  Y -> Z
-  X -> Z
-  Z -> B
+  Y -> C
 }

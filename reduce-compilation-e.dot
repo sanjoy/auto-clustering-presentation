@@ -12,7 +12,10 @@ digraph {
   }
 
   Input -> DynamicSlice
+  Begin -> DynamicSlice
   Begin -> SizeFunction
   Size -> SizeFunction
-  SizeFunction -> DynamicSlice
+  Input -> InputShape
+  InputShape -> SizeFunction
+  SizeFunction -> DynamicSlice[label="exact_output_size"]
 }

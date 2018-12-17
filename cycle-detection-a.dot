@@ -3,11 +3,11 @@ digraph {
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
   X[fillcolor=coral]
-  Z[fillcolor=coral]
+  Y[fillcolor=coral]
 
   A -> X
+  X -> B
   X -> Y
-  X -> Z
-  Y -> Z
-  Z -> B
+  B -> Y
+  Y -> C
 }

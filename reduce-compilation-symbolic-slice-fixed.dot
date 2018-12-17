@@ -11,6 +11,7 @@ digraph {
   }
 
   Input[label="Input\n\nf32[100,100] ..."]
+  InputShape[label="InputShape\n\ns32[2] {100, 100}"]
   Begin[label="Begin\n\ns32[2] {B0,B1}"]
   Size[label="Size\n\ns32[2] {-1,30}"]
   SizeFunction[label="SizeFunction\n\ns32[2] {B0,30}"]
@@ -19,5 +20,6 @@ digraph {
   Input -> DynamicSlice
   Begin -> SizeFunction
   Size -> SizeFunction
-  SizeFunction -> DynamicSlice
+  InputShape -> SizeFunction
+  SizeFunction -> DynamicSlice[label="exact_output_size"]
 }

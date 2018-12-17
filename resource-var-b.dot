@@ -2,14 +2,14 @@ digraph {
   graph[bgcolor=gray98,compound=true]
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
-  StoreX1[label="*X = 1",fillcolor=coral]
+  StoreX6[label="*X = 6",fillcolor=coral]
   LoadY[label="r0 = *Y",fillcolor=coral]
 
+  StoreY[label="*Y = 8"]
   StoreX7[label="*X = 7"]
-  StoreY[label="*Y = 2"]
 
-  SOURCE -> StoreX1[style=dashed]
-  StoreX1 -> LoadY[style=dashed]
+  SOURCE -> StoreX6[style=dashed]
+  StoreX6 -> LoadY[style=dashed]
   LoadY -> SINK[style=dashed]
 
   SOURCE -> StoreY[style=dashed]

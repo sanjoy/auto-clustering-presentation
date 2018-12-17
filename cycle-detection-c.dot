@@ -3,9 +3,10 @@ digraph {
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
   XLA[label="XLA Cluster\n\n[DEADLOCK]"]
+  B[label="B\n\n[DEADLOCK]"]
 
   A -> XLA
-  XLA -> Y
-  Y -> XLA
   XLA -> B
+  B -> XLA
+  XLA -> C
 }
