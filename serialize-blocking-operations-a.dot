@@ -2,6 +2,6 @@ digraph {
   graph[bgcolor=gray98,compound=true]
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
-  Stack -> StackPush
-  Stack -> StackPop
+  FIFOQueue -> QueueEnqueue
+  FIFOQueue -> QueueDequeue
 }

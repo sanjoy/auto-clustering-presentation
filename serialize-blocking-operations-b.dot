@@ -11,8 +11,8 @@ digraph {
     C[fillcolor=coral]
   }
 
-  StackPop -> A
+  QueueDequeue -> A
   A -> C
   B -> C
-  B -> StackPush
+  B -> QueueEnqueue
 }

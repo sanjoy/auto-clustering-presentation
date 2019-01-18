@@ -3,8 +3,8 @@ digraph {
   node[fontsize=20,shape=box,fillcolor=azure, style="filled,rounded"]
 
   "XLA Cluster"[fillcolor=coral]
-  StackPop[label="StackPop\n\n[DEADLOCKS]"]
+  QueueDequeue[label="QueueDequeue\n\n[DEADLOCKS]"]
 
-  StackPop -> "XLA Cluster"
-  "XLA Cluster" -> StackPush
+  QueueDequeue -> "XLA Cluster"
+  "XLA Cluster" -> QueueEnqueue
 }
