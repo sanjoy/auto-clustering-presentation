@@ -246,22 +246,22 @@
   \end{columns}
 \end{frame}
 
-%% \begin{frame}[fragile]
-%%   \frametitle{Auto Clustering: Device To Host Copies}
+\begin{frame}[fragile]
+  \frametitle{Auto Clustering: Device To Host Copies}
 
-%%   \begin{columns}
-%%     \begin{column}{0.48\textwidth}
-%%       \begin{itemize}
-%%       \item XLA only produces device memory buffers
-%%       \item May introduce bottlenecks by not letting the CPU run ahead of the GPU
-%%       \item We ``decluster'' nodes to avoid this problem
-%%       \end{itemize}
-%%     \end{column}
-%%     \begin{column}{0.48\textwidth}
-%%       \image{device-to-host-copies}
-%%     \end{column}
-%%   \end{columns}
-%% \end{frame}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}
+      \item XLA only produces device memory buffers
+      \item May introduce bottlenecks by not letting the CPU run ahead of the GPU
+      \item We ``decluster'' nodes to avoid this problem
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \image{device-to-host-copies}
+    \end{column}
+  \end{columns}
+\end{frame}
 
 %% \begin{frame}[fragile]
 %%   \frametitle{Runtime Specialization of Shapes}
