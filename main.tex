@@ -263,74 +263,6 @@
   \end{columns}
 \end{frame}
 
-%% \begin{frame}[fragile]
-%%   \frametitle{Runtime Specialization of Shapes}
-%%   \begin{itemize}
-%%   \item XLA only supports static shapes today.
-%%   \item The XLA executable must be versioned on the input shapes.
-%%   \item In some cases we also need to version on input \textit{values}.
-%%   \end{itemize}
-%% \end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Runtime Specialization of Shapes}
-
-  %% \begin{columns}
-  %%   \begin{column}{0.48\textwidth}
-  %%     \image{shape-specialization-b}
-  %%   \end{column}
-  %%   \begin{column}{0.48\textwidth}
-  %%     \image{shape-specialization-c}
-  %%   \end{column}
-  %% \end{columns}
-
-  \begin{itemize}
-    \item XLA is statically shaped while TensorFlow is not
-    \item We version (with caching) XLA executables on the shapes in the cluster
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Runtime Specialization of Shapes}
-  Output shape for \texttt{tf.slice(input, begin, size)}:
-\begin{verbatim}
-  output_size[i] =
-    (size[i] == -1) ? (input.shape()[i] - begin[i]) :
-                      size[i];
-\end{verbatim}
-\end{frame}
-
-
-\begin{frame}[c]
-  \frametitle{Reducing Unnecessary Recompilation}
-
-  \image{reduce-compilation-symbolic-slice}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Reducing Unnecessary Recompilation}
-
-  \image{reduce-compilation-a}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Reducing Unnecessary Recompilation}
-
-  \image{reduce-compilation-e}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Reducing Unnecessary Recompilation}
-
-  \image{reduce-compilation-f}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Reducing Unnecessary Recompilation}
-
-  \image{reduce-compilation-symbolic-slice-fixed}
-\end{frame}
-
 \begin{frame}[fragile]
   \frametitle{Resource Variable Operations in TensorFlow}
   \begin{columns}
@@ -429,6 +361,74 @@ Write(Z, rZ1)
   \end{itemize}
 \end{frame}
 
+
+%% \begin{frame}[fragile]
+%%   \frametitle{Runtime Specialization of Shapes}
+%%   \begin{itemize}
+%%   \item XLA only supports static shapes today.
+%%   \item The XLA executable must be versioned on the input shapes.
+%%   \item In some cases we also need to version on input \textit{values}.
+%%   \end{itemize}
+%% \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Runtime Specialization of Shapes}
+
+  %% \begin{columns}
+  %%   \begin{column}{0.48\textwidth}
+  %%     \image{shape-specialization-b}
+  %%   \end{column}
+  %%   \begin{column}{0.48\textwidth}
+  %%     \image{shape-specialization-c}
+  %%   \end{column}
+  %% \end{columns}
+
+  \begin{itemize}
+    \item XLA is statically shaped while TensorFlow is not
+    \item We version (with caching) XLA executables on the shapes in the cluster
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Runtime Specialization of Shapes}
+  Output shape for \texttt{tf.slice(input, begin, size)}:
+\begin{verbatim}
+  output_size[i] =
+    (size[i] == -1) ? (input.shape()[i] - begin[i]) :
+                      size[i];
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[c]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-symbolic-slice}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-a}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-e}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-f}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Reducing Unnecessary Recompilation}
+
+  \image{reduce-compilation-symbolic-slice-fixed}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Auto Clustering: Current Status}
