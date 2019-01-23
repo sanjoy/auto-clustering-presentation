@@ -10,12 +10,14 @@ digraph {
 
   A -> XlaCompile0
   XlaCompile0 -> XlaRun0
+  A -> XlaRun0
   XlaRun0 -> C
   XlaRun0 -> C
 
   A -> B
   B -> XlaCompile1
   XlaCompile1 -> XlaRun1
+  B -> XlaRun1
   XlaRun1 -> C
 
   subgraph cluster0 {
